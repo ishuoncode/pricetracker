@@ -1,10 +1,10 @@
-import { Product } from '@/types';
+import { product } from '@/types';
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react'
 
 interface Props {
-  product: Product;
+  product: product;
 }
  
 const ProductCard = ({ product }: Props) => {

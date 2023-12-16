@@ -1,4 +1,4 @@
-import { PriceHistoryItem, Product } from "@/types";
+import { PriceHistoryItem, product } from "@/types";
 
 export function getLowestPrice(priceList: PriceHistoryItem[]) {
     let lowestPrice = priceList[0];
@@ -49,8 +49,8 @@ export function getLowestPrice(priceList: PriceHistoryItem[]) {
   const THRESHOLD_PERCENTAGE = 40;
   
   export const getEmailNotifType = (
-    scrapedProduct: Product,
-    currentProduct: Product
+    scrapedProduct: product,
+    currentProduct: product
   ) => {
     const lowestPrice = getLowestPrice(currentProduct.priceHistory);
   
