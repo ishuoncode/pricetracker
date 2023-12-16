@@ -3,7 +3,6 @@
 import axios from "axios";
 import * as cheerio from "cheerio";
 
-
 export async function scrapeAmazonProduct(url: string) {
   if (!url) return;
 
@@ -35,17 +34,57 @@ export async function scrapeAmazonProduct(url: string) {
     const currentPriceElement = $(
       "#corePriceDisplay_desktop_feature_div .a-price.aok-align-center.reinventPricePriceToPayMargin.priceToPay .a-price-whole"
     );
-    const currentPrice = currentPriceElement.text().trim();
+    const currentPrice = currentPriceElement.text().trim().replace(/,/g, '');
+
     // Extract the original price (M.R.P.)
 
     const originalPriceElement = $(
       "#corePriceDisplay_desktop_feature_div .a-size-small.a-color-secondary.aok-align-center.basisPrice .a-price .a-offscreen"
     );
+    const currency = originalPriceElement.text()[0];
     const originalPrice = originalPriceElement.text().replace(/[₹,]/g, "");
 
-   
-    console.log("Original Price (M.R.P.):", originalPrice);
-    console.log("Current Price (M.R.P.):", currentPrice);
+    const outOfStock =
+      $("#availability span").text().trim().toLowerCase() ===
+      "currently unavailable";
+
+    const images =
+      $("#imgBlkFront").attr("data-a-dynamic-image") ||
+      $("#landingImage").attr("data-a-dynamic-image") ||
+      "{}";
+    const imagesUrls = Object.keys(JSON.parse(images));
+
+    const discountRate = $(".savingsPercentage").text().replace(/[-%]/g, "");
+
+    const stars = $("#acrPopover .a-size-base.a-color-base").text().trim();
+    
+    const reviewsCount = $("#acrCustomerReviewText")
+      .text()
+      .trim()
+      .split(" ")[0].replace(/,/g, '');
+  
+    
+      
+
+    //construct data object
+    const data = {
+      url,
+      title,
+      stars,
+      reviewsCount,
+      image: imagesUrls[0],
+      currency: currency || "₹",
+      currentPrice: Number(currentPrice),
+      originalPrice: Number(originalPrice),
+      priceHistory: [],
+      discountRate: Number(discountRate),
+      isOutOfStock: outOfStock,
+      lowestPrice:Number(currentPrice) || Number(originalPrice),
+      highestPrice:Number(originalPrice) || Number(currentPrice),
+      averagePrice:Number(currentPrice) || Number(originalPrice)
+    };
+    // console.log("🚀 ~ file: index.tsx:78 ~ scrapeAmazonProduct ~ data:", data);
+    return data
   } catch (error: any) {
     throw new Error(`Failed to scrape the product ${error.message}`);
   }
