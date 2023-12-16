@@ -1,5 +1,5 @@
 import { getProductById,getSimilarProducts } from "@/lib/actions"
-import { Product } from "@/types";
+import { product } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";
@@ -12,7 +12,7 @@ import ProductCard from "@/components/ProductCard";
 
  const ProductDetails = async ({ params: { id } }:{params:{id:string}} ) => {
 
-    const product: Product = await getProductById(id);
+    const product: product = await getProductById(id);
 
     if(!product) return redirect('/')
 
