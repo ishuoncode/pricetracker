@@ -103,7 +103,7 @@ export const sendEmail = async (
   };
 
   try {
-    console.log("Email sent:");
+    // console.log("Email sent:");
     await transporter.sendMail(
       mailOptions,
       (error: any, info: any) => {

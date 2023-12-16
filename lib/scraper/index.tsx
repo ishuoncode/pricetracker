@@ -7,7 +7,7 @@ export async function scrapeAmazonProduct(url: string) {
   if (!url) return;
 
   // BrightData proxy configuration
-  // console.log("fdsfsdfdsfdddddddddddddddddddddddddddddddd")
+ 
   const username = String(process.env.BRIGHT_DATA_USERNAME);
   const password = String(process.env.BRIGHT_DATA_PASSWORD);
   const port = 22225;
@@ -83,7 +83,7 @@ export async function scrapeAmazonProduct(url: string) {
       highestPrice:Number(originalPrice) || Number(currentPrice),
       averagePrice:Number(currentPrice) || Number(originalPrice)
     };
-    // console.log("🚀 ~ file: index.tsx:78 ~ scrapeAmazonProduct ~ data:", data);
+   
     return data
   } catch (error: any) {
     throw new Error(`Failed to scrape the product ${error.message}`);
